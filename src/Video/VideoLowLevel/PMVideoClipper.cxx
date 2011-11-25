@@ -64,7 +64,7 @@ namespace pm {
    }
 
    Size size = Size(videoCapture.get(CV_CAP_PROP_FRAME_WIDTH), videoCapture.get(CV_CAP_PROP_FRAME_HEIGHT)); 
-   VideoWriter writer = VideoWriter("tempOutputFile.mpg", CV_FOURCC('P', 'I', 'M', '1'), fps, size, true);
+   VideoWriter writer = VideoWriter(outputFile, CV_FOURCC('P', 'I', 'M', '1'), fps, size, true);
   
    for(int i = startFrameIndex; i < endFrameIndex; i++) {
     videoCapture >> frame;
