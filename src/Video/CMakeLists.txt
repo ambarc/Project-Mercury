@@ -1,3 +1,1 @@
 ADD_SUBDIRECTORY(VideoLowLevel)
-ADD_SUBDIRECTORY(VideoMidLevel)
-ADD_SUBDIRECTORY(VideoIntelligence)

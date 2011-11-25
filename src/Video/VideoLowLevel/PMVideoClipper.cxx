@@ -17,18 +17,18 @@ namespace pm {
   }
   //Start and end in seconds. 
   int PMVideoClipper::saveVideoAtInterval(float start, float end, string& outputFile) {
-   // In millisecs for OpenCV.
-   //videoCapture.set(CV_CAP_PROP_POS_MSEC, start * 1000);
-
+   bool debug = true;
    // TODO(ambarc): Right now all I can do is go frame by frame --- determine fps and then get seconds per frame?? 
    // TODO(ambarc): Fix this -- but right now I'm just going to grab the next 1000 frames and output the clip.
-   bool DEBUG = false;
+   if (start > end) {
+    return -1;
+   }
    Mat frame = Mat::Mat();
    if (!videoCapture.isOpened()) {
     cerr << "Problem with videoCapture! Not opened!! " << endl;
     return -1;
    } else {
-    if (DEBUG) {
+    if (debug) {
      cout << "Video Capture working! " << endl;
      cout << "Width is " << videoCapture.get(CV_CAP_PROP_FRAME_WIDTH) << endl;
      cout << "Height is " << videoCapture.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
@@ -43,23 +43,21 @@ namespace pm {
     }
    }
 
-   //frame = Mat::Mat(videoCapture.get(CV_CAP_PROP_FRAME_HEIGHT), videoCapture.get(CV_CAP_PROP_FRAME_WIDTH));
-   int counter = 0;
-   double framePosition = start;
-   namedWindow("TestWindow", CV_WINDOW_NORMAL);
+   double framePosition = end * 1000;   
    videoCapture.set(CV_CAP_PROP_POS_MSEC, framePosition);
-   while(true) {
-    //bool returnFrame = videoCapture.read(frame);
-    if (true) {
-     videoCapture >> frame;
-     counter++;
-     if (DEBUG) {
-      cout << counter << " Relative position: " << videoCapture.get(CV_CAP_PROP_POS_AVI_RATIO) << " Frame index ... " 
-      << videoCapture.get(CV_CAP_PROP_POS_FRAMES) << endl;
-     }
+   int endFrameIndex = videoCapture.get(CV_CAP_PROP_POS_FRAMES);
+   
+   double framePosition = start * 1000;
+   videoCapture.set(CV_CAP_PROP_POS_MSEC, framePosition);
+   int startFrameIndex = videoCapture.get(CV_CAP_PROP_POS_FRAMES);
+   
+   for(int i = startFrameIndex; i < endFrameIndex; i++) {
+    videoCapture >> frame;
+    if (debug) {
+     cout << "Relative position: " << videoCapture.get(CV_CAP_PROP_POS_AVI_RATIO)
+      << " Frame index ... " << videoCapture.get(CV_CAP_PROP_POS_FRAMES) << endl;
      imshow(videoFile, frame);
      waitKey(25);
-     //cout << frame << endl;
     }
    }
    return 1;
