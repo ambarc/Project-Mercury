@@ -14,11 +14,11 @@ using namespace pm;
 void main(int argc, char **argv) {
  cout << "Number of arguments is " << argc << endl;
  for (int i = 0; i < argc; i++) {
-  cout << argv[i] << endl;
+  cout << "Argument " << i << "is... "<< argv[i] << endl;
  }
 
  if (argc != 4) {
-  cout << "Argument " << i << "is... " << "Usage:PMVideoClipperUseCase <fileName> <startSecs> <endSecs> " << endl;
+  cout << "Usage:VideoClipperUseCase <fileName> <startSecs> <endSecs> " << endl;
   return;
  }
 
