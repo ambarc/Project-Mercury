@@ -7,12 +7,16 @@ Ambar Choudhury
 //Basic Clipping Functionality for video.
 #include <string> 
 
+#include "opencv2/opencv.hpp"
+#include "opencv/cv.h"
+#include "cv.hpp"
+
 namespace pm {
 
  class PMVideoClipper {
  private:
   std::string videoFile; 
-  VideoCapture videoCapture; 
+  cv::VideoCapture videoCapture; 
  public:
   PMVideoClipper(const std::string& fileName);
   void setVideoFile(std::string& newVideoFile); 
