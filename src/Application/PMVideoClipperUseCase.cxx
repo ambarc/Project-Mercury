@@ -14,7 +14,7 @@ using namespace pm;
 void main(int argc, char **argv) {
  cout << "Number of arguments is " << argc << endl;
  for (int i = 0; i < argc; i++) {
-  cout << "Argument " << i << "is... "<< argv[i] << endl;
+  cout << " Argument " << i << " is... "<< argv[i] << endl;
  }
 
  if (argc != 4) {

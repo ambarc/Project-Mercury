@@ -21,9 +21,10 @@ namespace pm {
    // TODO(ambarc): Right now all I can do is go frame by frame --- determine fps and then get seconds per frame?? 
    // TODO(ambarc): Fix this -- but right now I'm just going to grab the next 1000 frames and output the clip.
    if (start > end) {
+    cout << "Start value greater than end... Please Check. Exiting! " << endl;
     return -1;
    }
-   Mat frame = Mat::Mat();
+   Mat frame, output;
    if (!videoCapture.isOpened()) {
     cerr << "Problem with videoCapture! Not opened!! " << endl;
     return -1;
@@ -42,24 +43,41 @@ namespace pm {
      cout << "Matrix Type " << frame.type() << endl;
     }
    }
+   double fps = videoCapture.get(CV_CAP_PROP_FPS);
+   double frameCount = videoCapture.get(CV_CAP_PROP_FRAME_COUNT);
+   double durationSeconds = frameCount / fps;
 
-   double framePosition = end * 1000;   
-   videoCapture.set(CV_CAP_PROP_POS_MSEC, framePosition);
-   int endFrameIndex = videoCapture.get(CV_CAP_PROP_POS_FRAMES);
-   
-   double framePosition = start * 1000;
-   videoCapture.set(CV_CAP_PROP_POS_MSEC, framePosition);
-   int startFrameIndex = videoCapture.get(CV_CAP_PROP_POS_FRAMES);
-   
+   if (debug) {
+    cout << "Clip duration is... " << durationSeconds << " seconds." << endl;
+   }
+
+   double startRelative = start/durationSeconds;
+   double endRelative = end/durationSeconds;
+
+   int startFrameIndex = (int) (startRelative * frameCount);
+   int endFrameIndex = (int) (endRelative * frameCount);
+ 
+   videoCapture.set(CV_CAP_PROP_POS_FRAMES, startFrameIndex);
+   if (debug) {
+    cout << "Start Frame Index is... " << startFrameIndex << endl;
+    cout << "End Frame Index is... " << endFrameIndex << endl;
+   }
+
+   Size size = Size(videoCapture.get(CV_CAP_PROP_FRAME_WIDTH), videoCapture.get(CV_CAP_PROP_FRAME_HEIGHT)); 
+   VideoWriter writer = VideoWriter("tempOutputFile.mpg", CV_FOURCC('P', 'I', 'M', '1'), fps, size, true);
+  
    for(int i = startFrameIndex; i < endFrameIndex; i++) {
     videoCapture >> frame;
+    writer << frame;
     if (debug) {
      cout << "Relative position: " << videoCapture.get(CV_CAP_PROP_POS_AVI_RATIO)
       << " Frame index ... " << videoCapture.get(CV_CAP_PROP_POS_FRAMES) << endl;
+    }
      imshow(videoFile, frame);
      waitKey(25);
-    }
    }
+
+
    return 1;
   }
 }
