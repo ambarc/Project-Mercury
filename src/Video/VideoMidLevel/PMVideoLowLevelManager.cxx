@@ -72,9 +72,15 @@ namespace pm {
     clipper.saveVideoAtInterval(intervalStart, intervalEnd, tempOutputFile);
    }
   }
+  // Mash.
   PMVideoMasher masher = PMVideoMasher(mashFiles);
   masher.mashFiles(outputFile);
+
+  //Cleanup.
   dataFile.close();
+  for (int i = 0; i < mashFiles.size(); i++) {
+   remove(mashFiles[i].c_str());
+  }
  }
 
 }
