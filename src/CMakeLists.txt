@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(Video)
+ADD_SUBDIRECTORY(Application)

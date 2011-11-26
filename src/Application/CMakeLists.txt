@@ -2,3 +2,9 @@ SET(ClipperSource "${PROJECT_SOURCE_DIR}/src/Video/VideoLowLevel/PMVideoClipper.
 "${PROJECT_SOURCE_DIR}/src/Application/PMVideoClipperUseCase.cxx")
 ADD_EXECUTABLE(VideoClipperUseCase ${ClipperSource})
 TARGET_LINK_LIBRARIES(VideoClipperUseCase ${OpenCV_LIBS})
+
+SET(MasherSource "${PROJECT_SOURCE_DIR}/src/Video/VideoLowLevel/PMVideoMasher.cxx" 
+"${PROJECT_SOURCE_DIR}/src/Application/PMVideoMasherUseCase.cxx")
+
+ADD_EXECUTABLE(VideoMasherUseCase ${MasherSource})
+TARGET_LINK_LIBRARIES(VideoMasherUseCase ${OpenCV_LIBS})
