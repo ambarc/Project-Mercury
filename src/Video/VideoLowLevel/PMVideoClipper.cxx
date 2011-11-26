@@ -65,7 +65,9 @@ namespace pm {
 
    Size size = Size(videoCapture.get(CV_CAP_PROP_FRAME_WIDTH), videoCapture.get(CV_CAP_PROP_FRAME_HEIGHT)); 
    VideoWriter writer = VideoWriter(outputFile, CV_FOURCC('P', 'I', 'M', '1'), fps, size, true);
-  
+   if (debug) {
+    cout << "Outputting to " << outputFile << endl;
+   }
    for(int i = startFrameIndex; i < endFrameIndex; i++) {
     videoCapture >> frame;
     writer << frame;
@@ -76,8 +78,6 @@ namespace pm {
      imshow(videoFile, frame);
      waitKey(25);
    }
-
-
    return 1;
   }
 }
